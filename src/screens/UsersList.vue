@@ -4,13 +4,17 @@
             v-for="user in users"
             :key="user.id"
             :user="user"
-        />
+        >
+            <div slot="child">
+                {{ user.name }}
+            </div>
+        </user-item>
     </div>
 </template>
 
 <script>
 import Vue from 'vue';
-import { mapActions, mapState } from 'vuex';
+import { mapActions, mapState, mapMutations } from 'vuex';
 import UserItem from '../components/UserItem.vue';
 
 export default {
@@ -22,10 +26,12 @@ export default {
         ...mapState(['users'])
     },
     methods: {
-        ...mapActions(['clearSelectedUser', 'getUsers'])
+        ...mapActions(['getUsers']),
+        ...mapMutations(['clearSelectedUser'])
     },
     mounted() {
-        this.getUsers()
+        this.getUsers();
+        this.clearSelectedUser();
     }
 }
 </script>

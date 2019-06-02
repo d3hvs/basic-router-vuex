@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import { getUsers } from '../services'; 
+import { getUsers, getUserById } from '../services'; 
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
     state: {
+        loadingDetails: false,
         selectedUser: {},
         users: []
     },
@@ -19,6 +20,9 @@ const store = new Vuex.Store({
         },
         setUsers(state, users) {
             state.users = users;
+        },
+        setLoadingDetails(state, isLoading) {
+            state.loadingDetails = isLoading;
         }
     },
     actions: {
@@ -27,6 +31,14 @@ const store = new Vuex.Store({
                 .then((users) => {
                     store.commit('setUsers', users);
                 })
+        },
+        getUserById(store, id) {
+            store.commit('setLoadingDetails', true)
+            getUserById(id)
+                .then((user) => {
+                    store.commit('setSelectedUser', user);
+                    store.commit('setLoadingDetails', false)
+                });
         }
     }
 });

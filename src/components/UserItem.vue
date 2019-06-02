@@ -4,7 +4,7 @@
         @click="goToUser(user.id)"
     >
         <v-card-title>
-            {{ user.name }}
+            <slot name="child" />
         </v-card-title>
     </v-card>
 </template>
@@ -19,7 +19,6 @@ export default {
     methods: {
         ...mapMutations(['setSelectedUser']),
         goToUser() {
-            this.setSelectedUser(this.user);
             this.$router.push(`/user/${this.user.id}`)
         }
     },

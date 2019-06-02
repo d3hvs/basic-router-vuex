@@ -1,16 +1,23 @@
 <template>
     <div class="user-details">
         User Details
-        <pre>{{ selectedUser }}</pre>
+        <strong style="font-size: 2rem" v-if="loadingDetails">Loading ...</strong> <br />
+        <pre v-if="!loadingDetails">{{ selectedUser }}</pre>
     </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 export default {
     name: 'UserDetails',
     computed: {
-        ...mapState(['selectedUser'])
+        ...mapState(['loadingDetails', 'selectedUser'])
+    },
+    methods: {
+        ...mapActions(['getUserById'])
+    },
+    mounted() {
+        this.getUserById(this.$route.params.id);
     }
 }
 </script>
